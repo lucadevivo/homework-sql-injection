@@ -1,51 +1,39 @@
-# SQL Injection Homework - Vulnerable Medical System
+# SQL Injection Homework - Sistema Ospedaliero Vulnerabile
 
-Questo progetto è un'applicazione web volutamente vulnerabile creata a scopo didattico per lo studio e la pratica di tecniche di **SQL Injection**. Simula il portale di gestione di un ospedale, dove medici, pazienti e amministratori possono accedere a referti e documenti.
+Questo progetto è un'applicazione web sviluppata a fini didattici per illustrare e testare diverse tecniche di SQL Injection. Simula un portale ospedaliero per la gestione di medici, pazienti e documenti riservati.
 
-⚠️ **ATTENZIONE**: Questa applicazione contiene vulnerabilità di sicurezza critiche. Non deve essere utilizzata in ambienti di produzione o esposta su internet.
+**Nota Bene**: L'applicazione è deliberatamente insicura. Non deve essere utilizzata per gestire dati reali o esposta su reti pubbliche.
 
-## 🏗️ Architettura
+## Architettura del sistema
 
-L'ambiente è completamente containerizzato utilizzando **Docker** e include:
-- **Frontend/Backend**: Apache con PHP 8.0.
+L'intero ambiente è configurato tramite Docker per facilitarne il deployment e garantire la separazione dei servizi:
+- **Web Server**: Apache con PHP 8.0.
 - **Database**: MariaDB 10.5.
-- **Dati Iniziali**: Uno script `init.sql` che popola il database con tabelle di utenti, referti e documenti segreti.
+- **Dati**: Lo script `init.sql` configura automaticamente lo schema e popola le tabelle al primo avvio.
 
-## 🎯 Obiettivi Didattici
+## Scenari di test
 
-L'applicazione permette di testare diverse tipologie di SQL Injection:
-- **In-band (Union-based)**: Estrarre dati da tabelle non autorizzate.
-- **Bypass di autenticazione**: Accedere come admin o medico senza conoscere la password.
-- **Data Exfiltration**: Recuperare documenti segreti tramite manipolazione delle query nei moduli di ricerca o modifica.
+L'applicazione è strutturata per permettere l'analisi di diverse vulnerabilità comuni:
+- **Authentication Bypass**: Accesso alle aree riservate senza credenziali valide.
+- **In-band SQLi (Union-based)**: Estrazione di informazioni sensibili da tabelle arbitrarie.
+- **Privilege Escalation**: Accesso a funzionalità amministrative tramite la manipolazione delle query.
 
-## 🚀 Installazione e Avvio
+## Setup e configurazione
 
-1. Clona il repository:
-   ```bash
-   git clone git@github.com:lucadevivo/homework-sql-injection.git
-   cd homework-sql-injection
-   ```
+È necessario avere Docker e Docker Compose installati sul sistema.
 
-2. Avvia l'ambiente con Docker Compose:
+1. Clonare il repository.
+2. Avviare i container:
    ```bash
    docker-compose up -d --build
    ```
+3. L'interfaccia sarà raggiungibile su `http://localhost:8080`.
 
-3. Accedi all'applicazione tramite browser all'indirizzo:
-   [http://localhost:8080](http://localhost:8080)
+## Struttura delle pagine rilevanti
 
-## 📂 Struttura delle Vulnerabilità
-
-- `src/login.php`: Gestisce l'autenticazione tramite query non parametrizzate.
-- `src/documenti_segreti.php`: Punto di accesso privilegiato per testare l'estrazione di dati.
-- `src/gestione_utenti.php`: Funzionalità amministrative soggette a manipolazione.
-
-## 🛠️ Tecnologie utilizzate
-
-- Docker & Docker Compose
-- PHP
-- MariaDB
-- HTML/CSS (interfaccia minimale)
+- `login.php`: Esempio di gestione insicura dell'autenticazione.
+- `documenti_segreti.php`: Pagina contenente dati riservati, target principale per test di estrazione.
+- `gestione_utenti.php`: Interfaccia per la modifica dei privilegi e dello stato degli account.
 
 ---
-Progetto realizzato per il compito di **Sicurezza Informatica**.
+Progetto realizzato per l'esame di Sicurezza Informatica.
